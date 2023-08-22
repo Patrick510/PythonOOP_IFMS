@@ -1,0 +1,21 @@
+class Lista:
+  def __init__(self):
+    self.tarefas = []
+
+  def adicionar_tarefa(self,tarefa):
+    self.tarefa.append(tarefa)
+
+  def remover_tarefa(self,id):
+    self.tarefas = [t for t in self.tarefas if t! = id]
+
+  def editar_tarefa(self.id.titulo=none, descricao=none, prioridade=none, concluida=none):
+    for t in self.tarefas:
+        if t.id==id:
+          if titulo !=none:
+            t.titulo=titulo
+
+  def obter_tarefa(self, filtro=none, nao_concluidas=none):
+    self.tarefas = sorted(self.tarefas,reverse=true)
+
+    if nao_concluidas == true 
+      tarefas=[t for t in tarefas if t.concluida !=true]
