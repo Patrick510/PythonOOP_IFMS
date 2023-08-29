@@ -6,8 +6,8 @@ class Project:
 
 print('Testando o projeto')
 
-from py4 import Cliente
-from py8 import Conta
+from py4_first_class import Cliente
+from py8_cont import Conta
 
 c1 = Cliente("Jonas", "4002-8922")
 conta = Conta(c1.nome, 6565, 0)
