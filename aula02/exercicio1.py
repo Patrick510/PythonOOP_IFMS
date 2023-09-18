@@ -1,8 +1,8 @@
 class Rectangle:
 
   def __init__(self,widht,weight):
-     self.widht = 0
-     self.height = 0
+    self.widht = 0
+    self.height = 0
 
   def set_Dimentions(self,w,h):
     self.widht = w
