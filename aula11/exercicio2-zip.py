@@ -3,12 +3,10 @@
 """
 
 import os
-import sys
 import shutil
 import zipfile
 from pathlib import Path
 from PIL import Image
-from abc import ABC, abstractmethod
 
 class ZipProcessor:
     def __init__(self, nome_do_zip):
