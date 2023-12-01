@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+        }, false);
+    </script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="pseudocode.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+    <script defer>hljs.configure({ cssSelector: "code", languages: ["python"] }); hljs.highlightAll(); hljs.initLineNumbersOnLoad();</script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left: '$$', right: '$$', display: true},{left: '$', right: '$', display: false}]});"></script>
+
+    <style>
+        img {
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        table.custom,
+        table.custom>thead>tr>th,
+        table.custom>tbody>tr>td,
+        table.custom>tbody>tr>th {
+            /* tabela centralizada e com bordas */
+            border: 1px solid black;
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        table pre {
+            /* Remove a margem interna de tags pre dentro de tabelas */
+            margin: 0;
+            padding: 0;
+        }
+
+        table.align-left th,
+        table.align-left td {
+            /* alinha à esquerda as células da tabela */
+            text-align: left;
+        }
+
+        ol.excs {
+            /* lista de exercícios */
+            padding-inline-start: 0em;
+            counter-reset: excs;
+            list-style: none;
+        }
+
+        ol.excs>li::before {
+            /* lista de exercícios */
+            counter-increment: excs;
+            content: counters(excs, ".") ". ";
+        }
+
+        ol.excs>li {
+            /* Change this to adjust the line color and thickness */
+            border-left: 2px solid #000;
+            /* Optional: Add padding to create some space between the bar and content */
+            padding-left: 10px;
+
+            margin-block-start: 1em;
+            margin-block-end: 1em;
+        }
+
+        ol.section {
+            counter-reset: section;
+            list-style-type: none;
+        }
+
+        ol.section li::before {
+            counter-increment: section;
+            content: counters(section, ".") ". ";
+        }
+
+        td.hljs-ln-numbers {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            color: #ccc;
+            border-right: 1px solid #999;
+            padding-right: 5px;
+        }
+
+        td.hljs-ln-code {
+            /* estilizar as linhas de código da extensao highlightjs-line-numbers */
+            padding-left: 10px;
+        }
+    </style>
+</head>
+
+<div id="5-when-to-use-object-oriented-programming">
+    <h1>5 Quando usar programação orientada a objetos</h1>
+    <div id="5-1-treat-objects-as-objects">
+        <h2>Trate objetos como objetos</h2>
+        <p>Primeiro, identificamos os objetos no problema, e então modelamos seus dados e comportamentos.</p>
+        <p>Identificar objetos é uma tarefa essencial na análise orientada a objetos. Pena que não é tão simples quanto identificar os substantivos em um parágrafo que descreve um sistema. Se um candidato a objeto possuir apenas dados, mas não comportamentos, então podemos usar uma outra estrutura de dados para armazená-lo, como lista, conjunto ou dicionário, que veremos no próximo capítulo. Por outro lado, se possui apenas comportamentos, então uma simples função é mais adequada.</p>
+        <p>Muitas vezes podemos iniciar nossos programas armazenando dados em algumas variáveis. À medida que o programa se expande, descobrimos que estamos passando o mesmo conjunto de variáveis relacionadas para um conjunto de funções. Este é o momento de pensar em agrupar variáveis e funções em uma classe.</p>
+        <p>Vamos ver um mesmo problema sendo abordado de dois jeitos. Temos um quadrado que é composto por quatro pontos bidimensionais. No primeiro jeito, sem orientação a objetos:</p>
+
+        <pre><code>import math
+
+def distance(p1, p2):
+    return math.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+
+def perimeter(polygon):
+    perimeter = 0
+    points = polygon + [polygon[0]]
+    for i in range(len(polygon)):
+        perimeter += distance(points[i], points[i+1])
+    return perimeter
+
+
+square = [(1,1), (1,2), (2,2), (2,1)]
+perimeter(square)</code></pre>
+
+        <p>Agora, com orientação a objetos:</p>
+        <pre><code>class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distance(self, p2):
+        return math.sqrt((self.x-p2.x)**2 + (self.y-p2.y)**2)
+
+class Polygon:
+    def __init__(self):
+        self.vertices = []
+
+    def add_point(self, point):
+        self.vertices.append((point))
+
+    def perimeter(self):
+        perimeter = 0
+        points = self.vertices + [self.vertices[0]]
+        for i in range(len(self.vertices)):
+            perimeter += points[i].distance(points[i+1])
+        return perimeter
+
+
+square = Polygon()
+square.add_point(Point(1,1))
+square.add_point(Point(1,2))
+square.add_point(Point(2,2))
+square.add_point(Point(2,1))
+square.perimeter()</code></pre>
+
+        <p>Qual jeito é melhor? Orientação a objetos nesse caso pode até ter ficado mais legível, mas definitivamente não ficou mais conciso. Para o cliente, que for utilizar a API, os métodos <code>distance</code> e <code>perimeter</code> são mais explicativos que as funções correspondentes.</p>
+        <p>Lembre-se, código grande não necessariamente quer dizer código complexo. Inclusive, geralmente colocar várias operações em uma só linha de código, apesar de divertido, pode tornar o código menos legível. E o que queremos é sempre um código que seja legível e manutenível.</p>
+
+        <p>A propósito, não é por que um código orientado a objetos é pior que seu correspondente funcional, que orientação a objetos é pior. Talvez seja apenas código mal escrito. Podemos melhorar a API de polígonos para facilitar seu uso pelo cliente:</p>
+
+        <pre><code>class Polygon2(Polygon):
+    def __init__(self, points=[]):
+        self.vertices = []
+        for point in points:
+            if isinstance(point, tuple):
+                point = Point(point[0], point[1])
+            self.vertices.append(point)</code></pre>
+
+        <p>Como seria um exemplo de cliente que usa essa nova API?</p>
+
+        <p>Para essa API pequena, talvez não faça tanta diferença entre o paradigma funcional e orientado a objetos. Mas à medida que a API cresça, com cálculos de área, colisão de pontos, ou com mais dados aos polígonos, como cor e textura, orientação a objetos passa a se pagar.</p>
+
+        <p>Se o sistema for usar apenas um polígono, não há necessidade de criar uma classe, pois com esta subentende-se que haverá vários objetos. Por outro lado, se o sistema for manipular vários polígonos, cada qual com vários possíveis comportamentos (cálculo de área, perímetro, interseção, ...), pode fazer mais sentido usar orientação a objetos.</p>
+
+        <p>Para saber se podemos usar POO, podemos olhar o relacionamento entre os dados. Se um faz parte de outro (composição), ou se é uma especialização de outro (herança), é um indício de POO.</p>
+    </div>
+
+    <div id="5-2-adding-behaviors-to-class-data-with-properties">
+        <h2>Adicionando comportamentos aos dados de classe com propriedades</h2>
+        <p>Algumas linguagens orientadas a objetos têm como princípio nunca acessar ou modificar atributos diretamente, tornando-os privados e implementando métodos para acessá-los ou modificá-los:</p>
+
+        <pre><code>class Color:
+    def __init__(self, rgb_value, name):
+        self._rgb_value = rgb_value
+        self._name = name
+
+    def set_name(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name</code></pre>
+
+        <p>Os métodos <code>get</code> e <code>set</code> são usados para acessar e modificar os atributos:</p>
+
+        <pre><code>c = Color("#ff0000", "bright red")
+print(c.get_name())
+c.set_name("red")
+print(c.get_name())</code></pre>
+
+        <p>Essa versão <i>boilerplate</i> faz exatamente a mesma coisa que a seguinte simples API:</p>
+        <pre><code>class Color:
+ def __init__(self, rgb_value, name):
+    self.rgb_value = rgb_value
+    self.name = name</code></pre>
+
+        <p>O cliente da API mais simples soa mais natural:</p>
+
+        <pre><code>c = Color("#ff0000", "bright red")
+print(c.name)
+c.name = "red"
+print(c.name)</code></pre>
+
+        <p>A justificativa por usar a versão boilerplate é: vai que um dia precisamos validar o dado antes de atribuí-lo, ou apresentá-lo de uma forma diferente do seu valor padrão? Por exemplo:</p>
+
+        <pre><code>def set_name(self, name):
+    if not name:
+        raise Exception("Invalid Name")
+    self._name = name</code></pre>
+
+        <p>Se fizermos essa alteração depois que a API foi publicada, todos que a utilizem precisarão atualizar seus códigos caso queiram manter a versão atualizada da API. Assim, os favoráreis a esse princípio alegam que é bom já deixar o atributo privado e acessá-lo apenas através de set e get para evitar essa situação.</p>
+        <p>Entretanto, até quando se faz validação dos dados, raramente é feita pelo método set, usando-se outros recursos para tal, como anotações e decorações. Acaba que o código fica simplesmente inchado, na maioria dos casos, cheio de sets e gets de uma única linha.</p>
+
+        <p>O Python possui um recurso chamado <b>propriedade</b>, que faz métodos se comportarem como atributos. Esse é um jeito de alcançar o mesmo propósito desse princípio boilerplate:</p>
+
+        <pre><code>class Color:
+    def __init__(self, rgb_value, name):
+        self.rgb_value = rgb_value
+        self._name = name
+
+    @property
+    def name(self):
+        '''o nome da cor'''
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not value:
+            raise Exception("Invalid Name")
+        self._name = value</code></pre>
+
+        <p>Podemos até adicionar um docstring ao método <code>property</code> que o Python vai apresentar o docstring como dado e não como método. O código cliente permanece conciso com a validação dos dados ainda ocorrendo na API.</p>
+
+        <p>Apesar do Python não ter o modificador de acesso <code>private</code>, o atributo <code>_name</code> indica que não pode ser acessado diretamente por conta do prefixo sublinhado. Isso já é o suficiente para um cliente educado, e que tem consciência de que se tentar modificá-lo diretamente, a API já não mais garante o funcionamento previsto.</p>
+
+        <div id="5-2-1-properties-in-detail">
+            <h3>Propriedades em detalhes</h3>
+
+            <p>O Python possui a palavra-reservada <code>del</code>, que exclui um atributo de um objeto. Caso o atributo na verdade seja um método "<code>property</code>", podemos decorar um método para tal operação:</p>
+
+            <pre><code>    @name.deleter
+    def name(self):
+        del self._name
+</code></pre>
+
+            <p>Atenção: Nesses exemplos, <code>name</code> foi o nome dado ao atributo encapsulado pelos métodos decorados. Substitua-o conforme o nome adequado do atributo de teu objeto. O nome dos métodos setter e deleter poderia ser outro, pois o que importa são suas decorações.</p>
+
+            <p>Versão completa do cliente, que acessa, modifica e exclui um atributo encapsulado pelos métodos decorados:</p>
+
+            <pre><code>c = Color("#ff0000", "bright red")
+print(c.name)
+c.name = "red"
+print(c.name)
+del c.name
+print(c.name)</code></pre>
+
+            <p>A operação <code>del</code> na prática é raramente usada. Poderíamos decorar um método com <code>@.deleter</code> para registrar no log a ocorrência da operação, ou para impedir que a operação ocorra. Apesar que ao tentar realizar <code>del</code> em uma propriedade que não tenha o método com a decoração<code>@deleter</code>, a operação já não ocorrerá, lançando uma exceção.</p>
+        </div>
+
+        <div id="5-2-2-decorators">
+            <h3>Mais detalhes</h3>
+            <p>Propriedades também podem ser usadas para declarar atributos constantes:</p>
+            <pre><code>class Foo:
+    @property
+    def bar(self):
+        return "baz"</code></pre>
+
+            <p>Não há método decorado como <code>setter</code>, e mesmo se tivesse, seria inócuo, pois a propriedade retorna um valor literal.</p>
+        </div>
+
+        <div id="5-2-3-deciding-when-to-use-properties">
+            <h3>Decidindo quando usar propriedades</h3>
+            <p>Tecnicamente em Python, propriedades e métodos são considerados atributos. A diferença é que métodos são atributos invocáveis.</p>
+            <p>Basicamente quando algo de um objeto se refere a uma ação, então é um método. Ou seja, ao invocar um método, este deve "fazer" alguma coisa. Por isso que nomes de métodos geralmente são verbos.
+            <p>Já, se for um dado, então pode ser um atributo padrão ou uma propriedade. Nomes de atributos e propriedades geralmente são substantivos. Em geral, use atributo padrão a menos que você queira manter um maior controle no acesso e modificação do atributo. A diferença entre atributos padrão e propriedades é que você consegue realizar operações personalizadas ao obter, modificar ou excluir uma propriedade.</p>
+            <p>Um caso de uso comum para propriedades é deixar em <i>cache</i> valores difíceis de calcular, ou que são caros de obter, como uma requisição web ou consulta de banco de dados. Assim, o valor é armazenado localmente para evitar repetidos cálculos caros.</p>
+            <p>A estratégia de <i>cache</i> funciona assim: a primeira vez que um valor é solicitado, realizamos o cálculo, consulta ou requisição, e armazenamos o resultado num atributo privado ou numa API de caching dedicada. Das próximas vezes que o valor for solicitado, basta retornar o valor armazenado em cache. Podemos estipular um prazo para o cache, que ao encerrar, é realizado o processo novamente, para manter o valor atualizado. Exemplo:</p>
+            <pre><code>from urllib.request import urlopen
+
+class WebPage:
+    def __init__(self, url):
+        self.url = url
+        self._content = None
+
+    @property
+    def content(self):
+        if not self._content:
+            print("Retrieving New Page...")
+            self._content = urlopen(self.url).read()
+        return self._content</code></pre>
+
+            <p>Veja um exemplo de cliente:</p>
+            <pre><code>>>> import time
+>>> webpage = WebPage("http://ccphillips.net/")
+>>> now = time.time()
+>>> content1 = webpage.content
+Retrieving New Page...
+>>> time.time() - now
+22.43316888809204
+>>> now = time.time()
+>>> content2 = webpage.content
+>>> time.time() - now
+1.9266459941864014
+>>> content2 == content1
+True</code></pre>
+
+            <p>Propriedades também podem ser usadas para atributos cujo valores dependem de outros atributos do objeto, como a idade, que pode ser obtida a partir da data de nascimento, ou nome completo, que pode ser obtido a partir do nome e sobrenome. Neste caso, não valeria a pena criar um atributo extra, e como não é uma ação, então é uma propriedade. Por exemplo, seja uma lista de números, poderíamos ter um método <code>calcular_média</code>, ou simplesmente a propriedade <code>média</code>:</p>
+
+            <pre><code>class AverageList(list):
+    @property
+    def average(self):
+        return sum(self) / len(self)</code></pre>
+
+            <p>Exemplo de uso:</p>
+            <pre><code>>>> a = AverageList([1,2,3,4])
+>>> a.average
+2.5</code></pre>
+
+            <p>Métodos setters são úteis para validação, como já vimos, mas também podem ser usados para redirecionar um valor para outro local. Por exemplo, poderíamos adicionar um método setter ao <code>content</code> da classe <code>WebPage</code> que faz o login automaticamente em nosso servidor web e faz o upload de uma nova página sempre que o valor é modificado.</p>
+        </div>
+        <div id="5-2-4">
+            <h3>Exercícios</h3>
+            <ol class="ecxs">
+                <li>
+                    <p><b>Adicionando Expiração ao Cache</b></p>
+
+                    <p>Modifique a classe `WebPage` para incluir um atributo de expiração no cache. Este atributo representa o período durante o qual o conteúdo da página é considerado válido. Após esse período, ao solicitar o conteúdo, a página deve ser recarregada automaticamente. Siga as etapas abaixo:</p>
+                    <ol type="a">
+                        <li>
+                            <b>Atributo de Expiração:</b>
+                            <ul>
+                                <li>Adicione um novo atributo chamado `cache_timeout` à classe `WebPage`. Este atributo deve representar o tempo de expiração do cache em segundos.</li>
+                                <li>Escolha um valor padrão para `cache_timeout`, mas que possa ser modificado depois através de métodos getter e setter.</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <b>Recarregamento Automático:</b>
+                            <ul>
+                                <li>Modifique o método `content` para verificar se o cache está expirado antes de retornar o conteúdo.</li>
+                                <li>Se o cache estiver expirado, recarregue o conteúdo da página e atualize o timestamp de expiração do cache.</li>
+                                <li>Utilize o módulo `time` para gerenciar os timestamps.</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <b>Exemplo de Uso:</b>
+                            <ul>
+                                <li>Crie uma instância da classe `WebPage` com uma URL de sua escolha.</li>
+                                <li>Configure um tempo de expiração para o cache (em segundos).</li>
+                                <li>Solicite o conteúdo da página várias vezes e observe se o conteúdo é recarregado após o período de expiração.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+
+    <!-- exercício
+
+classe matemática que apresenta a constante pi com um determinado número de precisão como método property
+
+propriedade idade que retorna a idade a partir da data de nascimento e data atual
+
+propriedade nome completo, retorna nome e sobrenome.
+
+propriedade média, depende de notas -->
+</div>
