@@ -1,7 +1,4 @@
-class Id:
-  def __init__(self,idproduto):
-    self.idproduto = idproduto
-
+from id import Id
 
 class Produto(Id):
   produto1 = "vazio"
@@ -13,6 +10,9 @@ class Produto(Id):
 
   def desconto(self,percentual):
     self.preco = (self.preco - (percentual / 100))
+
+  def mostra_id(self):
+    return super().mostra_id()
 
   @classmethod
   def mostraprod(cls):
@@ -32,7 +32,6 @@ class Produto(Id):
   @nome.setter
   def nome(self,texto):
       self._nome = texto.lower().title()
-
 
   #getter
   @property
@@ -57,3 +56,5 @@ print(p2.preco, p2.nome)
 
 p1.mostraprod()
 p1.idade(19)
+
+p1.mostra_id()
