@@ -50,7 +50,15 @@ class Estudante:
     
     @property
     def nomecompleto(self):
-        return f"{self.nome} {self.sobrenome}"
+        if self.nome is not None and self.sobrenome is not None:
+            return f"{self.nome} {self.sobrenome}"
+        else:
+            return "Nome incompleto"
+    
+    @property
+    def mostranotas(self):
+        notas_str = ', '.join(map(str, self.notas))
+        return notas_str
 
     def excluirnota(self, id):
         del self._notas[id]
@@ -69,3 +77,4 @@ print(e1.nome, e1.sobrenome, e1._notas)
 print(e1.nomecompleto)
 
 print(e1.media)
+print(e1.mostranotas)
