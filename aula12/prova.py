@@ -75,6 +75,6 @@ e1 = Estudante("joao","matias",notas)
 print(e1.nome, e1.sobrenome, e1._notas)
 print(e1.nome, e1.sobrenome, e1._notas)
 print(e1.nomecompleto)
-
+e1.excluirnota(1)
 print(e1.media)
 print(e1.mostranotas)
