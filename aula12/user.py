@@ -2,17 +2,6 @@ from id import Id
 
 class Produto(Id):
   produto1 = "vazio"
-  
-  def __init__(self,idproduto,nome,preco):
-    super().__init__(idproduto)
-    self.nome = nome
-    self.preco = preco
-
-  def desconto(self,percentual):
-    self.preco = (self.preco - (percentual / 100))
-
-  def mostra_id(self):
-    return super().mostra_id()
 
   @classmethod
   def mostraprod(cls):
@@ -24,6 +13,17 @@ class Produto(Id):
       print(True)
     else:
       print(False)
+
+  def __init__(self,idproduto,nome,preco):
+    super().__init__(idproduto)
+    self.nome = nome
+    self.preco = preco
+
+  def desconto(self,percentual):
+    self.preco = (self.preco - (percentual / 100))
+
+  def mostra_id(self):
+    return super().mostra_id()
 
   @property
   def nome(self):
